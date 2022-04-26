@@ -1,0 +1,16 @@
+.user {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    background: #F3F3F3;
+    border-radius: 8px;
+    padding: 0 15px 15px;   
+}
+
+.info {
+    display: flex;
+    p {
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+}
