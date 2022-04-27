@@ -5,33 +5,35 @@ import Filter from './components/filter/Filter';
 import UsersList from "./components/userList/UsersList";
 import axios from "axios"
 import { User } from "./types/Users";
+import { Loader } from './components/loader/Loader.js';
 
 const App = () => {
   const [users, setUsers] = useState<User[]>([])
+  const [loader, setLoader] = useState(false)
 
   useEffect(() => {
     fetchUsers()
   }, [])
 
   async function fetchUsers() {
+    setLoader(true)
     try {
       const responce = await axios.get<User[]>('https://jsonplaceholder.typicode.com/users')
       setUsers(responce.data)
-      
     } catch (error) {
       console.log(error);
     }
+    setLoader(false)
   }
 
   return (
     <BrowserRouter>
       <Filter/>
       <div className={classes.wrapp}>
-        <UsersList users={users}/>
-      </div>
       <Routes>
-        <Route />
+        <Route path="/" element={<UsersList users={users} loader={loader}/>} />
       </Routes>
+      </div>
     </BrowserRouter>
   );
 };

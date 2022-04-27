@@ -12,7 +12,7 @@ const UserCard: FC<UserCardProps> = ({user}) => {
     <div className={classes.user}>
         <div className={classes.user_info}>
             <div className={classes.info}>
-                <p style={{color: '#A3A3A3'}}>Имя: </p>
+                <p style={{color: '#A3A3A3'}}>ФИО: </p>
                 <p>{user.name}</p>
             </div>
             <div className={classes.info}>

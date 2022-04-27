@@ -1,23 +1,28 @@
-import React, { FC } from 'react'
-import { User } from '../../types/Users'
-import UserCard from './userCard/UserCard'
-import classes from './UsersList.module.scss'
+import React, { FC } from "react";
+import { User } from "../../types/Users";
+import UserCard from "./userCard/UserCard";
+import classes from "./UsersList.module.scss";
+import { Loader } from "./../loader/Loader";
 
 interface UsersListProps {
-    users: User[]
+  users: User[];
+  loader: boolean;
 }
 
-const UsersList: FC<UsersListProps> = ({users}) => {
+const UsersList: FC<UsersListProps> = ({ users, loader }) => {
   return (
-    <div className={classes.users}>
-        <h2>Список пользователей</h2>
+    <>
+      <h2>Список пользователей</h2>
+      {loader && <Loader />}
+      <div className={classes.users}>
         <div className={classes.users_card}>
-            {users.map(user => {
-                return <UserCard user={user}/>
-            })}
+          {users.map((user) => {
+            return <UserCard key={user.id} user={user} />;
+          })}
         </div>
-    </div>
-  )
-}
+      </div>
+    </>
+  );
+};
 
-export default UsersList
+export default UsersList;

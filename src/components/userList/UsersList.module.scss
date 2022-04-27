@@ -1,11 +1,6 @@
-.users {
-    h2 {
-        margin-bottom: 17px;
-    }
-}
-
 .users_card {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 17px;
+    margin-top: 20px;
 }
