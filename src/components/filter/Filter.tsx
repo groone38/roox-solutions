@@ -1,4 +1,5 @@
 import React from "react";
+import BaseButton from "../UI/BaseButton/BaseButton";
 import classes from "./Filter.module.scss";
 
 const Filter = () => {
@@ -6,8 +7,8 @@ const Filter = () => {
     <div className={classes.filter}>
       <div className={classes.filter_btn}>
         <p>Сортировка</p>
-        <button>по городу</button>
-        <button>по компании</button>
+        <BaseButton text="по городу"/>
+        <BaseButton text="по компании"/>
       </div>
     </div>
   );

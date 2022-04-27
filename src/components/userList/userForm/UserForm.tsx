@@ -4,10 +4,12 @@ import { User } from "../../../types/Users";
 import classes from "./UserForm.module.scss";
 import axios from "axios";
 import { Loader } from './../../loader/Loader';
+import BaseButton from './../../UI/BaseButton/BaseButton';
 
 export const UserForm = () => {
   const [user, setUser] = useState<User>();
   const [loader, setLoader] = useState(false)
+  const [disabled, setDisabled] = useState(true)
   const params = useParams().id;
   useEffect(() => {
     fetchUser();
@@ -27,12 +29,12 @@ export const UserForm = () => {
         {loader && <Loader/>}
       <div className={classes.header}>
         <h3>Профиль пользоваетля</h3>
-        <button>Редактироввать</button>
+        <BaseButton text="Профиль пользоваетля" onClick={() => setDisabled(false)}/>
       </div>
       <form>
         <div className={classes.form}>
           <label htmlFor="">Name</label>
-          <input type="text" placeholder={user?.name}/>
+          <input type="text" placeholder={user?.name} disabled={disabled && true}/>
           <label htmlFor="">User name</label>
           <input type="text" placeholder={user?.username}/>
           <label htmlFor="">E-mail</label>
@@ -50,7 +52,7 @@ export const UserForm = () => {
           <label htmlFor="">Comment</label>
           <textarea name=""></textarea>
         </div>
-        <button>Отправить</button>
+        <BaseButton text="Отправить" send={disabled ? "#AFAFAF" : '#52CF4F'} />
       </form>
     </div>
   );
