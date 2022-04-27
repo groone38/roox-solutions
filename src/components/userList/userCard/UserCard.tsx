@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { NavLink } from 'react-router-dom'
 import { User } from '../../../types/Users'
 import classes from './UserCard.module.scss'
 
@@ -7,7 +8,6 @@ interface UserCardProps {
 }
 
 const UserCard: FC<UserCardProps> = ({user}) => {
-    console.log(user);
   return (
     <div className={classes.user}>
         <div className={classes.user_info}>
@@ -25,7 +25,7 @@ const UserCard: FC<UserCardProps> = ({user}) => {
             </div>
         </div>
         <div className={classes.user_btn}>
-            <p>Подробнее</p>
+            <NavLink to={'/user/' + user.id}>Подробнее</NavLink>
         </div>
     </div>
   )
