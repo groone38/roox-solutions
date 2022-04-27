@@ -11,6 +11,7 @@ export interface User {
         catchPhrase: string
         bs: string
     }
+    comment?: string
 }
 
 interface Address {

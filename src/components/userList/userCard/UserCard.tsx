@@ -25,7 +25,7 @@ const UserCard: FC<UserCardProps> = ({user}) => {
             </div>
         </div>
         <div className={classes.user_btn}>
-            <NavLink to={'/user/' + user.id}>Подробнее</NavLink>
+            <NavLink to={'/' + user.id}>Подробнее</NavLink>
         </div>
     </div>
   )
