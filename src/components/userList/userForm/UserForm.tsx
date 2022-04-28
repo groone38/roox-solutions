@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { User } from "../../../types/Users";
 import classes from "./UserForm.module.scss";
@@ -7,11 +7,7 @@ import { Loader } from "./../../loader/Loader";
 import BaseButton from "./../../UI/BaseButton/BaseButton";
 import BaseInput from "../../UI/BaseInput/BaseInput";
 
-interface UserFormProps {
-  users: User[];
-}
-
-export const UserForm: FC<UserFormProps> = ({ users }) => {
+export const UserForm = () => {
   const [user, setUser] = useState<User>({
     id: 0,
     name: '',
@@ -36,18 +32,15 @@ export const UserForm: FC<UserFormProps> = ({ users }) => {
     },
     comment: ''
   });
-  // const [user, setUser] = useState<User>();
   const [loader, setLoader] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false)
   const params = Number(useParams().id);
-  // console.log(users);
-  // console.log(params);
+ 
 
   useEffect(() => {
     fetchUser()
   }, []);
-  // console.log(user);
   const fetchUser = async () => {
     setLoader(true)
     try {
@@ -69,56 +62,15 @@ export const UserForm: FC<UserFormProps> = ({ users }) => {
   const errorHandler = (error: boolean) => {
     setError(error)
   }
-  // let data = user.filter(item => item.id === params)
-  // const valueHandler: React.ChangeEventHandler<
-  //   HTMLInputElement | HTMLTextAreaElement
-  // > = (e) => { 
-  //   let newValue = {...user}
-  //   if(e.target.name === 'street') {
-  //     newValue.address.street = e.currentTarget.value
-  //   } else if(e.target.name === 'city') {
-  //     newValue.address.city = e.currentTarget.value
-  //   } else if(e.target.name === 'zipcode') {
-  //     newValue.address.zipcode = e.currentTarget.value
-  //   } else {
-  //     newValue = {...newValue, [e.currentTarget.name]: e.currentTarget.value}
-  //   }
-    
-    // console.log(newValue);
-    // setUser(newValue)
-    // if(user?.address.street === e.target.name) {
-    //   setUser({
-    //     ...user,
-    //     user: ...user.address, user.address.street = 'kek'
-    //   })
-    
-    // }
-    // console.log({[e.currentTarget.name]: e.currentTarget.value});
-    // let kek = e.currentTarget.name
-    // let newValue = {...user}
-    // for(let key in user){
-    //   console.log(user[key]);
-    // }
-    // let newValue = {[e.currentTarget.name]: e.currentTarget.value}
-    // // setUser((prev)=>{…prev,newValue})
-    // setUser({
-    //   ...user,
-    //   [e.currentTarget.name]: e.currentTarget.value
-    // })
-  // };
+  
   const editUser: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if(!error) {
       console.log(user);
+    } else {
+      console.log("Вы не заплонили поля");
     }
-    // for(let myProp in user) {
-    //   let key = myProp as keyof typeof user; // Define a key of an Object
-    //   let value = user[key];
-    //   console.log(value);
-    // }
-    
   };
-  // console.log(user);
   return (
     <div>
       {loader && <Loader />}

@@ -7,7 +7,6 @@ interface BaseInputProps {
     label: string
     input: string
     inputValue: string
-    // onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     onChange: (e: User) => void
     errorHandler: (e: boolean) => void
     disabled: boolean

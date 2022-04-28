@@ -5,7 +5,6 @@ import Filter from './components/filter/Filter';
 import UsersList from "./components/userList/UsersList";
 import axios from "axios"
 import { User } from "./types/Users";
-import { Loader } from './components/loader/Loader.js';
 import { UserForm } from './components/userList/userForm/UserForm';
 
 const App = () => {
@@ -33,7 +32,7 @@ const App = () => {
       <div className={classes.wrapp}>
       <Routes>
         <Route path="/" element={<UsersList users={users} loader={loader}/>} />
-        <Route path="/:id" element={<UserForm users={users}/>} />
+        <Route path="/:id" element={<UserForm/>} />
       </Routes>
       </div>
     </BrowserRouter>
