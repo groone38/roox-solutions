@@ -11,9 +11,10 @@ interface BaseInputProps {
     errorHandler: (e: boolean) => void
     disabled: boolean
     user: User
+    type: string
 }
 
-const BaseInput: FC<BaseInputProps> = ({labelValue, label, input, inputValue, disabled, user, onChange, errorHandler}) => {
+const BaseInput: FC<BaseInputProps> = ({labelValue, label, input, inputValue, disabled, user, onChange, errorHandler, type}) => {
   const [error, setError] = useState(false)
   const valueHandler: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
   if(e.currentTarget.value === '') {
@@ -22,6 +23,44 @@ const BaseInput: FC<BaseInputProps> = ({labelValue, label, input, inputValue, di
   } else {
     setError(false)
     errorHandler(false)
+  }
+  const regEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  if(e.target.name === 'email') {
+    if(!regEmail.test(String(e.currentTarget.value).toLocaleLowerCase())) {
+      setError(true)
+      errorHandler(true)
+    } else {
+      setError(false)
+      errorHandler(false)
+    }
+  }
+  if(e.target.name === 'phone' || e.target.name === 'zipcode') {
+    if(e.currentTarget.value.length < 8) {
+      setError(true)
+      errorHandler(true)
+    } else {
+      setError(false)
+      errorHandler(false)
+    }
+  } 
+  if(e.target.name === 'name' || 'username' || 'street' || 'city') {
+    if(e.currentTarget.value.length < 2) {
+      setError(true)
+      errorHandler(true)
+    } else {
+      setError(false)
+      errorHandler(false)
+    }
+  }
+  let regWebsite = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+  if(e.target.name === 'website') {
+    if(!regWebsite.test(String(e.currentTarget.value).toLocaleLowerCase())) {
+      setError(true)
+      errorHandler(true)
+    } else {
+      setError(false)
+      errorHandler(false)
+    }
   }
   let newUser = {...user}
   if(e.target.name === 'street') {
@@ -38,7 +77,16 @@ const BaseInput: FC<BaseInputProps> = ({labelValue, label, input, inputValue, di
   return (
     <>
         <label htmlFor={label}>{labelValue}</label>
-        <input className={classes.input + ' ' + (error && classes.error)} type="text" id={input} name={input} onChange={valueHandler} value={inputValue} disabled={disabled}/>
+        {error && <p style={{color: 'red'}}>Некорректно заполненно поле</p>}
+        <input
+         className={classes.input + ' ' + (error && classes.error)} 
+         type={type} 
+         id={input} 
+         name={input} 
+         onChange={valueHandler} 
+         value={inputValue} 
+         disabled={disabled}
+        />
     </>
   )
 }

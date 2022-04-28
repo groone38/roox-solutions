@@ -10,63 +10,64 @@ import BaseInput from "../../UI/BaseInput/BaseInput";
 export const UserForm = () => {
   const [user, setUser] = useState<User>({
     id: 0,
-    name: '',
-    username: '',
-    email: '',
+    name: "",
+    username: "",
+    email: "",
     address: {
-      street: '',
-      suite: '',
-      city: '',
-      zipcode: '',
+      street: "",
+      suite: "",
+      city: "",
+      zipcode: "",
       geo: {
-        lat: '',
-        lng: ''
-      }
+        lat: "",
+        lng: "",
+      },
     },
-    phone: '',
-    website: '',
+    phone: "",
+    website: "",
     company: {
-        name: '',
-        catchPhrase: '',
-        bs: ''
+      name: "",
+      catchPhrase: "",
+      bs: "",
     },
-    comment: ''
+    comment: "",
   });
   const [loader, setLoader] = useState(false);
   const [disabled, setDisabled] = useState(true);
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
   const params = Number(useParams().id);
- 
 
   useEffect(() => {
-    fetchUser()
+    fetchUser();
   }, []);
   const fetchUser = async () => {
-    setLoader(true)
+    setLoader(true);
     try {
-      const responce = await axios.get<User[]>("https://jsonplaceholder.typicode.com/users/");
-      let us = responce.data.filter((item) => {
-        if(item.id === params)
-          return item
+      const responce = await axios.get<User[]>(
+        "https://jsonplaceholder.typicode.com/users/"
+      );
+      let user = responce.data.filter((item) => {
+        if (item.id === params) return item;
       });
-      
-      setUser(us[0])
+
+      setUser(user[0]);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-    setLoader(false)
+    setLoader(false);
   };
   const propsValue = (user: User) => {
-    setUser(user)
-  }
+    setUser(user);
+  };
   const errorHandler = (error: boolean) => {
-    setError(error)
-  }
-  
+    setError(error);
+  };
+
   const editUser: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    if(!error) {
-      console.log(user);
+    if (!error) {
+      const json = JSON.stringify(user);
+      console.log(json);
     } else {
       console.log("Вы не заплонили поля");
     }
@@ -83,91 +84,104 @@ export const UserForm = () => {
       </div>
       <form onSubmit={editUser}>
         <div className={classes.form}>
-          <BaseInput 
-            labelValue={'Name'} 
-            label={"name"} 
-            input="name" 
-            inputValue={user?.name} 
-            onChange={propsValue} 
+          <BaseInput
+            type="text"
+            labelValue={"Name"}
+            label={"name"}
+            input="name"
+            inputValue={user?.name}
+            onChange={propsValue}
             errorHandler={errorHandler}
             disabled={disabled && true}
             user={user}
           />
           <BaseInput
-           labelValue={'User name'} 
-           label={"username"} 
-           input="username" 
-           inputValue={user?.username} 
-           onChange={propsValue} 
-           errorHandler={errorHandler}
-           disabled={disabled && true}
-           user={user}
+            type="text"
+            labelValue={"User name"}
+            label={"username"}
+            input="username"
+            inputValue={user?.username}
+            onChange={propsValue}
+            errorHandler={errorHandler}
+            disabled={disabled && true}
+            user={user}
           />
           <BaseInput
-           labelValue={'E-mail'} 
-           label={"email"} 
-           input="email" 
-           inputValue={user?.email} 
-           onChange={propsValue} 
-           errorHandler={errorHandler}
-           disabled={disabled && true}
-           user={user}
+            type="text"
+            labelValue={"E-mail"}
+            label={"email"}
+            input="email"
+            inputValue={user?.email}
+            onChange={propsValue}
+            errorHandler={errorHandler}
+            disabled={disabled && true}
+            user={user}
           />
           <BaseInput
-           labelValue={'Street'} 
-           label={"street"} 
-           input="street" 
-           inputValue={user?.address.street} 
-           onChange={propsValue} 
-           errorHandler={errorHandler}
-           disabled={disabled && true}
-           user={user}
+            type="text"
+            labelValue={"Street"}
+            label={"street"}
+            input="street"
+            inputValue={user?.address.street}
+            onChange={propsValue}
+            errorHandler={errorHandler}
+            disabled={disabled && true}
+            user={user}
           />
           <BaseInput
-           labelValue={'City'} 
-           label={"city"} 
-           input="city" 
-           inputValue={user?.address.city} 
-           onChange={propsValue} 
-           errorHandler={errorHandler}
-           disabled={disabled && true}
-           user={user}
+            type="text"
+            labelValue={"City"}
+            label={"city"}
+            input="city"
+            inputValue={user?.address.city}
+            onChange={propsValue}
+            errorHandler={errorHandler}
+            disabled={disabled && true}
+            user={user}
           />
           <BaseInput
-           labelValue={'Zip code'} 
-           label={"zipcode"} 
-           input="zipcode" 
-           inputValue={user?.address.zipcode} 
-           onChange={propsValue} 
-           errorHandler={errorHandler}
-           disabled={disabled && true}
-           user={user}
+            type="text"
+            labelValue={"Zip code"}
+            label={"zipcode"}
+            input="zipcode"
+            inputValue={user?.address.zipcode}
+            onChange={propsValue}
+            errorHandler={errorHandler}
+            disabled={disabled && true}
+            user={user}
           />
           <BaseInput
-           labelValue={'Phone'} 
-           label={"phone"} 
-           input="phone" 
-           inputValue={user?.phone} 
-           onChange={propsValue} 
-           errorHandler={errorHandler}
-           disabled={disabled && true}
-           user={user}
+            type="text"
+            labelValue={"Phone"}
+            label={"phone"}
+            input="phone"
+            inputValue={user?.phone}
+            onChange={propsValue}
+            errorHandler={errorHandler}
+            disabled={disabled && true}
+            user={user}
           />
           <BaseInput
-           labelValue={'Website'} 
-           label={"website"} 
-           input="website" 
-           inputValue={user?.website} 
-           onChange={propsValue} 
-           errorHandler={errorHandler}
-           disabled={disabled && true}
-           user={user}
+            type="text"
+            labelValue={"Website"}
+            label={"website"}
+            input="website"
+            inputValue={user?.website}
+            onChange={propsValue}
+            errorHandler={errorHandler}
+            disabled={disabled && true}
+            user={user}
           />
           <label htmlFor="coment">Comment</label>
           <textarea
             name="coment"
             id="coment"
-            onChange={(e) => setUser({...user, [e.currentTarget.name]: e.currentTarget.value})}
+            onChange={(e) =>
+              setUser({
+                ...user,
+                [e.currentTarget.name]: e.currentTarget.value,
+              })
+            }
             disabled={disabled && true}
           ></textarea>
         </div>
