@@ -33,7 +33,7 @@ const App = () => {
       <div className={classes.wrapp}>
       <Routes>
         <Route path="/" element={<UsersList users={users} loader={loader}/>} />
-        <Route path="/:id" element={<UserForm/>} />
+        <Route path="/:id" element={<UserForm />} />
       </Routes>
       </div>
     </BrowserRouter>
