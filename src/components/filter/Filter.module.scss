@@ -1,0 +1,19 @@
+.filter {
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding-left: 20px;
+    height: 100vh;
+    width: 170px;
+    background: #BDBDBD;
+}
+
+.filter_btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 37px;
+    p {
+        font-size: 12px;
+    }
+}

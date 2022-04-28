@@ -1,0 +1,19 @@
+@import '../../../styles/mixin';
+
+.input {
+    border: 1px solid #D8D8D8;
+    border-radius: 5px;
+    padding: 5px 10px;
+    &:focus {
+        @include borderRightFocus;
+    }
+}
+
+.error {
+    border:1px solid red;
+    outline: red;
+    &:focus {
+        border:1px solid red;
+        outline: red;
+    }
+}

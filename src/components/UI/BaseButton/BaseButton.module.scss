@@ -1,0 +1,10 @@
+@import '../../../styles/mixin';
+@import '../../../styles/variables';
+
+.btn {
+    @include btn;
+    background: $btn-color;
+    &:active {
+        box-shadow: $btn-active-click;
+    }
+}

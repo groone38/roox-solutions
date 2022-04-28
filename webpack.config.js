@@ -15,10 +15,12 @@ module.exports = {
     },
     output: {
         filename: "[name].[contenthash].js",
-        path: path.resolve(__dirname, "dist")
+        path: path.resolve(__dirname, "dist"),
+        publicPath: '/',
     },
     devServer: {
-        port: 3000
+        port: 3000,
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -33,16 +35,8 @@ module.exports = {
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
-                    // options: {
-                    // presets: ['@babel/preset-env', "@babel/preset-typescript", "@babel/preset-react"]
-                    // }
                 }
                 },
-            // {
-            //     test: /\.tsx?$/,
-            //     use: 'ts-loader',
-            //     exclude: /node_modules/,
-            // },
           {
             test: /\.css$/i,
             use: ["style-loader", "css-loader"],
@@ -69,6 +63,11 @@ module.exports = {
                 {loader: 'file-loader'},
             ],
         },
+        {
+            test: /\.js$/,
+            enforce: "pre",
+            use: ["source-map-loader"],
+          },
         ],
       },
 }

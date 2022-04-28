@@ -1,7 +1,17 @@
-h1 {
-    color: wheat;
+@import 'fonts.css';
+
+body {
+    font-family: 'Roboto', sans-serif;
 }
 
-li {
-    color: green;
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
+
+p {
+    font-size: 14px;
+    font-weight: 400;
+}
+
