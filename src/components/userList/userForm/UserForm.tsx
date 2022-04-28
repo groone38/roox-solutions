@@ -1,106 +1,229 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { User } from "../../../types/Users";
 import classes from "./UserForm.module.scss";
 import axios from "axios";
-import { Loader } from './../../loader/Loader';
-import BaseButton from './../../UI/BaseButton/BaseButton';
+import { Loader } from "./../../loader/Loader";
+import BaseButton from "./../../UI/BaseButton/BaseButton";
 import BaseInput from "../../UI/BaseInput/BaseInput";
 
-export const UserForm = () => {
-  // const [user, setUser] = useState<User>({
-  //   id: 0,
-  //   name: '',
-  //   username: '',
-  //   email: '',
-  //   address: {
-  //     street: '',
-  //     suite: '',
-  //     city: '',
-  //     zipcode: '',
-  //     geo: {
-  //       lat: '',
-  //       lng: ''
-  //     }
-  //   },
-  //   phone: '',
-  //   website: '',
-  //   company: {
-  //       name: '',
-  //       catchPhrase: '',
-  //       bs: ''
-  //   },
-  //   comment: ''
-  // });
-  const [user, setUser] = useState<User | undefined>()
-  const [loader, setLoader] = useState(false)
-  const [disabled, setDisabled] = useState(true)
+interface UserFormProps {
+  users: User[];
+}
+
+export const UserForm: FC<UserFormProps> = ({ users }) => {
+  const [user, setUser] = useState<User>({
+    id: 0,
+    name: '',
+    username: '',
+    email: '',
+    address: {
+      street: '',
+      suite: '',
+      city: '',
+      zipcode: '',
+      geo: {
+        lat: '',
+        lng: ''
+      }
+    },
+    phone: '',
+    website: '',
+    company: {
+        name: '',
+        catchPhrase: '',
+        bs: ''
+    },
+    comment: ''
+  });
+  // const [user, setUser] = useState<User>();
+  const [loader, setLoader] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+  const [error, setError] = useState(false)
   const params = Number(useParams().id);
-  
+  // console.log(users);
+  // console.log(params);
+
   useEffect(() => {
-    fetchUser();
+    fetchUser()
   }, []);
+  // console.log(user);
   const fetchUser = async () => {
     setLoader(true)
     try {
-      const responce = await axios.get("https://jsonplaceholder.typicode.com/users/" + params);
-      setUser(responce.data)
+      const responce = await axios.get<User[]>("https://jsonplaceholder.typicode.com/users/");
+      let us = responce.data.filter((item) => {
+        if(item.id === params)
+          return item
+      });
+      
+      setUser(us[0])
     } catch (error) {
         console.log(error);
     }
     setLoader(false)
   };
+  const propsValue = (user: User) => {
+    setUser(user)
+  }
+  const errorHandler = (error: boolean) => {
+    setError(error)
+  }
   // let data = user.filter(item => item.id === params)
-  const valueHandler: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-    let newValue = {[e.currentTarget.name]: e.currentTarget.value}
-    // setUser((prev)=>{…prev,newValue})
-    setUser(preb => {
-      ...preb,
-      [e.currentTarget.name]: e.currentTarget.value
-    })
-  }
+  // const valueHandler: React.ChangeEventHandler<
+  //   HTMLInputElement | HTMLTextAreaElement
+  // > = (e) => { 
+  //   let newValue = {...user}
+  //   if(e.target.name === 'street') {
+  //     newValue.address.street = e.currentTarget.value
+  //   } else if(e.target.name === 'city') {
+  //     newValue.address.city = e.currentTarget.value
+  //   } else if(e.target.name === 'zipcode') {
+  //     newValue.address.zipcode = e.currentTarget.value
+  //   } else {
+  //     newValue = {...newValue, [e.currentTarget.name]: e.currentTarget.value}
+  //   }
+    
+    // console.log(newValue);
+    // setUser(newValue)
+    // if(user?.address.street === e.target.name) {
+    //   setUser({
+    //     ...user,
+    //     user: ...user.address, user.address.street = 'kek'
+    //   })
+    
+    // }
+    // console.log({[e.currentTarget.name]: e.currentTarget.value});
+    // let kek = e.currentTarget.name
+    // let newValue = {...user}
+    // for(let key in user){
+    //   console.log(user[key]);
+    // }
+    // let newValue = {[e.currentTarget.name]: e.currentTarget.value}
+    // // setUser((prev)=>{…prev,newValue})
+    // setUser({
+    //   ...user,
+    //   [e.currentTarget.name]: e.currentTarget.value
+    // })
+  // };
   const editUser: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault()
-    console.log(user);
-  }
-  console.log(user);
+    e.preventDefault();
+    if(!error) {
+      console.log(user);
+    }
+    // for(let myProp in user) {
+    //   let key = myProp as keyof typeof user; // Define a key of an Object
+    //   let value = user[key];
+    //   console.log(value);
+    // }
+    
+  };
+  // console.log(user);
   return (
     <div>
-        {loader && <Loader/>}
+      {loader && <Loader />}
       <div className={classes.header}>
         <h3>Профиль пользоваетля</h3>
-        <BaseButton text="Редактироввать" onClick={() => setDisabled(!disabled)}/>
+        <BaseButton
+          text="Редактироввать"
+          onClick={() => setDisabled(!disabled)}
+        />
       </div>
       <form onSubmit={editUser}>
         <div className={classes.form}>
-          {/* <BaseInput labelValue={'Name'} label={"name"} input="name" inputValue={user[0]?.name} onChange={valueHandler} disabled={disabled && true}/>
-          <BaseInput labelValue={'User name'} label={"username"} input="username" inputValue={user[0]?.username} onChange={valueHandler} disabled={disabled && true}/>
-          <BaseInput labelValue={'E-mail'} label={"email"} input="email" inputValue={user[0]?.email} onChange={valueHandler} disabled={disabled && true}/>
-          <BaseInput labelValue={'Street'} label={"street"} input="street" inputValue={user[0]?.address.street} onChange={valueHandler} disabled={disabled && true}/>
-          <BaseInput labelValue={'City'} label={"city"} input="city" inputValue={user[0]?.address.city} onChange={valueHandler} disabled={disabled && true}/>
-          <BaseInput labelValue={'Zip code'} label={"zipcode"} input="zipcode" inputValue={user[0]?.address.zipcode} onChange={valueHandler} disabled={disabled && true}/>
-          <BaseInput labelValue={'Phone'} label={"phone"} input="phone" inputValue={user[0]?.phone} onChange={valueHandler} disabled={disabled && true}/>
-          <BaseInput labelValue={'Website'} label={"website"} input="website" inputValue={user[0]?.website} onChange={valueHandler} disabled={disabled && true}/> */}
-          {/* <label htmlFor="name">Name</label>
-          <input type="text" id="name" name="name" onChange={valueHandler} value={user?.name} disabled={disabled && true}/> */}
-          {/* <label htmlFor="username">User name</label>
-          <input type="text" id="username" name="username" onChange={valueHandler} value={user?.username} disabled={disabled && true}/> */}
-          {/* <label htmlFor="email">E-mail</label>
-          <input type="text" id="email" name="email" onChange={valueHandler} value={user?.email} disabled={disabled && true}/> */}
-          <label htmlFor="address">Street</label>
-          <input type="text" id="address" name="address" onChange={valueHandler} value={user?.address.street} disabled={disabled && true}/>
-          {/* <label htmlFor="city">City</label>
-          <input type="text" id="city" name="city" onChange={valueHandler} value={user?.address.city} disabled={disabled && true}/> */}
-          {/* <label htmlFor="zip">Zip code</label>
-          <input type="text" id="zip" name="zip" onChange={valueHandler} value={user?.address.zipcode} disabled={disabled && true}/>
-          <label htmlFor="phone">Phone</label>
-          <input type="text" id="phone" name="phone" onChange={valueHandler} value={user?.phone} disabled={disabled && true}/>
-          <label htmlFor="website">Website</label>
-          <input type="text" id="website" name="website" onChange={valueHandler} value={user?.website} disabled={disabled && true}/> */}
+          <BaseInput 
+            labelValue={'Name'} 
+            label={"name"} 
+            input="name" 
+            inputValue={user?.name} 
+            onChange={propsValue} 
+            errorHandler={errorHandler}
+            disabled={disabled && true}
+            user={user}
+          />
+          <BaseInput
+           labelValue={'User name'} 
+           label={"username"} 
+           input="username" 
+           inputValue={user?.username} 
+           onChange={propsValue} 
+           errorHandler={errorHandler}
+           disabled={disabled && true}
+           user={user}
+          />
+          <BaseInput
+           labelValue={'E-mail'} 
+           label={"email"} 
+           input="email" 
+           inputValue={user?.email} 
+           onChange={propsValue} 
+           errorHandler={errorHandler}
+           disabled={disabled && true}
+           user={user}
+          />
+          <BaseInput
+           labelValue={'Street'} 
+           label={"street"} 
+           input="street" 
+           inputValue={user?.address.street} 
+           onChange={propsValue} 
+           errorHandler={errorHandler}
+           disabled={disabled && true}
+           user={user}
+          />
+          <BaseInput
+           labelValue={'City'} 
+           label={"city"} 
+           input="city" 
+           inputValue={user?.address.city} 
+           onChange={propsValue} 
+           errorHandler={errorHandler}
+           disabled={disabled && true}
+           user={user}
+          />
+          <BaseInput
+           labelValue={'Zip code'} 
+           label={"zipcode"} 
+           input="zipcode" 
+           inputValue={user?.address.zipcode} 
+           onChange={propsValue} 
+           errorHandler={errorHandler}
+           disabled={disabled && true}
+           user={user}
+          />
+          <BaseInput
+           labelValue={'Phone'} 
+           label={"phone"} 
+           input="phone" 
+           inputValue={user?.phone} 
+           onChange={propsValue} 
+           errorHandler={errorHandler}
+           disabled={disabled && true}
+           user={user}
+          />
+          <BaseInput
+           labelValue={'Website'} 
+           label={"website"} 
+           input="website" 
+           inputValue={user?.website} 
+           onChange={propsValue} 
+           errorHandler={errorHandler}
+           disabled={disabled && true}
+           user={user}
+          />
           <label htmlFor="coment">Comment</label>
-          <textarea name="coment" id="coment" onChange={valueHandler} disabled={disabled && true}></textarea>
+          <textarea
+            name="coment"
+            id="coment"
+            onChange={(e) => setUser({...user, [e.currentTarget.name]: e.currentTarget.value})}
+            disabled={disabled && true}
+          ></textarea>
         </div>
-        <BaseButton text="Отправить" send={disabled ? "#AFAFAF" : '#52CF4F'} submit="submit"/>
+        <BaseButton
+          text="Отправить"
+          send={disabled ? "#AFAFAF" : "#52CF4F"}
+          submit="submit"
+        />
       </form>
     </div>
   );

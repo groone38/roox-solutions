@@ -1,0 +1,16 @@
+.input {
+    border: 1px solid #D8D8D8;
+    border-radius: 5px;
+    padding: 5px 10px;
+    &:focus {
+        border:1px solid #52CF4F;
+        outline: #52CF4F;
+    }
+}
+
+.error {
+   
+        border:1px solid red;
+        outline: red;
+  
+}
