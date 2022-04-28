@@ -1,0 +1,15 @@
+@import 'variables';
+
+@mixin btn {
+    margin-top: 10px;
+    padding: 5px 15px;
+    border-width: 0;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #FFFFFF;
+}
+
+@mixin borderRightFocus {
+    border:1px solid $input-right-color;
+    outline: $input-right-color;
+}

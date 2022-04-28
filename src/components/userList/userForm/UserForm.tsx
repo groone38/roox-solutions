@@ -36,7 +36,7 @@ export const UserForm = () => {
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
   const params = Number(useParams().id);
-  console.log(error);
+  
   useEffect(() => {
     fetchUser();
   }, []);
@@ -185,10 +185,12 @@ export const UserForm = () => {
             disabled={disabled && true}
           ></textarea>
         </div>
-        <BaseButton
-          text="Отправить"
-          send={disabled ? "#AFAFAF" : "#52CF4F"}
-          submit="submit"
+        <input
+         className={classes.submit} 
+         type={'submit'} 
+         disabled={disabled && true} 
+         style={{background: disabled ? "#AFAFAF" : "#52CF4F"}} 
+         value="Отправить" 
         />
       </form>
     </div>

@@ -16,8 +16,7 @@ interface BaseInputProps {
 
 const BaseInput: FC<BaseInputProps> = ({labelValue, label, input, inputValue, disabled, user, onChange, errorHandler, type}) => {
   const [error, setError] = useState(false)
-  console.log(error);
-
+  
   const valueHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
 
   if(e.currentTarget.value === '') {
@@ -41,7 +40,7 @@ const BaseInput: FC<BaseInputProps> = ({labelValue, label, input, inputValue, di
   }
 
   if(e.target.name === 'phone' || e.target.name === 'zipcode') {
-    if(e.currentTarget.value.length < 8) {
+    if(e.currentTarget.value.length < 5) {
       setError(true)
       errorHandler(true)
     } else {

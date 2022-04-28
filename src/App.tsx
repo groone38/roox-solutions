@@ -14,6 +14,7 @@ const App = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
+  
   function sortData(field: string) {
     const copeUsers = users.concat();
     if (field === "city") {
@@ -59,8 +60,8 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Filter sortData={sortData}/>
       <div className={classes.wrapp}>
+      <Filter sortData={sortData}/>
         <Routes>
           <Route
             path="/"

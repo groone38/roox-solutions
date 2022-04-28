@@ -12,7 +12,7 @@ interface UsersListProps {
 const UsersList: FC<UsersListProps> = ({ users, loader }) => {
   return (
     <>
-      <h2>Список пользователей</h2>
+      <h2 style={{marginTop: '20px'}}>Список пользователей</h2>
       {loader && <Loader />}
       <div className={classes.users}>
         <div className={classes.users_card}>
@@ -20,6 +20,7 @@ const UsersList: FC<UsersListProps> = ({ users, loader }) => {
             return <UserCard key={user.id} user={user} />;
           })}
         </div>
+        <h3 style={{textAlign: 'end', marginTop: '10px'}}>Найдено 10 пользователей</h3>
       </div>
     </>
   );

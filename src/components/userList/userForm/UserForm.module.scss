@@ -1,3 +1,6 @@
+@import '../../../styles/mixin';
+@import '../../../styles/variables';
+
 form {
     display: flex;
     flex-direction: column;
@@ -23,6 +26,7 @@ form {
     width: 100%;
     label {
         margin-top: 10px;
+        margin-bottom: 5px;
     }
     textarea {
         width: 100%;
@@ -32,8 +36,14 @@ form {
         padding: 5px 10px;
         resize: none;
         &:focus {
-            border:1px solid #52CF4F;
-            outline: #52CF4F;
+            @include borderRightFocus;
         }
+    }
+}
+
+.submit {
+    @include btn;
+    &:active {
+        box-shadow: $btn-active-click;
     }
 }
