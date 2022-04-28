@@ -5,14 +5,16 @@ interface BaseButtonProps {
     text: string
     onClick?: () => void
     send?: string
-    submit?: "submit" | "button" | "reset" | undefined
+    submit?: "submit" | "button" | "reset" 
+    sortData?: (field:string) => void
+    search?: string
 }
 
-const BaseButton: FC<BaseButtonProps> = ({text, onClick, send, submit="button"}) => {
+const BaseButton: FC<BaseButtonProps> = ({text, onClick, send, submit="button", sortData, search='id'}) => {
   return (
     <button 
         className={classes.btn}
-        onClick={onClick} 
+        onClick={onClick ? onClick : () => sortData(search)}
         style={{background: send && send}}
         type={submit}
     >

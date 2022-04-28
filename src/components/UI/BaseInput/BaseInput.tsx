@@ -16,7 +16,10 @@ interface BaseInputProps {
 
 const BaseInput: FC<BaseInputProps> = ({labelValue, label, input, inputValue, disabled, user, onChange, errorHandler, type}) => {
   const [error, setError] = useState(false)
-  const valueHandler: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
+  console.log(error);
+
+  const valueHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+
   if(e.currentTarget.value === '') {
     setError(true)
     errorHandler(true)
@@ -24,7 +27,9 @@ const BaseInput: FC<BaseInputProps> = ({labelValue, label, input, inputValue, di
     setError(false)
     errorHandler(false)
   }
+
   const regEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
   if(e.target.name === 'email') {
     if(!regEmail.test(String(e.currentTarget.value).toLocaleLowerCase())) {
       setError(true)
@@ -34,6 +39,7 @@ const BaseInput: FC<BaseInputProps> = ({labelValue, label, input, inputValue, di
       errorHandler(false)
     }
   }
+
   if(e.target.name === 'phone' || e.target.name === 'zipcode') {
     if(e.currentTarget.value.length < 8) {
       setError(true)
@@ -43,7 +49,8 @@ const BaseInput: FC<BaseInputProps> = ({labelValue, label, input, inputValue, di
       errorHandler(false)
     }
   } 
-  if(e.target.name === 'name' || 'username' || 'street' || 'city') {
+
+  if(e.target.name === 'name' || e.target.name === 'username' || e.target.name === 'street' || e.target.name === 'city') {
     if(e.currentTarget.value.length < 2) {
       setError(true)
       errorHandler(true)
@@ -52,7 +59,9 @@ const BaseInput: FC<BaseInputProps> = ({labelValue, label, input, inputValue, di
       errorHandler(false)
     }
   }
+
   let regWebsite = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+
   if(e.target.name === 'website') {
     if(!regWebsite.test(String(e.currentTarget.value).toLocaleLowerCase())) {
       setError(true)
@@ -62,6 +71,7 @@ const BaseInput: FC<BaseInputProps> = ({labelValue, label, input, inputValue, di
       errorHandler(false)
     }
   }
+
   let newUser = {...user}
   if(e.target.name === 'street') {
     newUser.address.street = e.currentTarget.value

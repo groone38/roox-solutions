@@ -36,7 +36,7 @@ export const UserForm = () => {
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
   const params = Number(useParams().id);
-
+  console.log(error);
   useEffect(() => {
     fetchUser();
   }, []);
