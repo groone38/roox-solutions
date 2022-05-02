@@ -34,9 +34,24 @@ export const UserForm = () => {
   });
   const [loader, setLoader] = useState(false);
   const [disabled, setDisabled] = useState(true);
-  const [error, setError] = useState(false);
+  const [sedError, setSendError] = useState(false);
+  const [error, setError] = useState({
+    name: false,
+    username: false,
+    email: false,
+    address: {
+      street: false,
+      city: false,
+      zipcode: false,
+    },
+    phone: false,
+    website: false,
+    company: {
+      name: false,
+    },
+  });
   const params = Number(useParams().id);
-  
+
   useEffect(() => {
     fetchUser();
   }, []);
@@ -56,16 +71,96 @@ export const UserForm = () => {
     }
     setLoader(false);
   };
-  const propsValue = (user: User) => {
-    setUser(user);
+
+  const propsValueName = (name: string) => {
+    if (name.length < 2) {
+      setError({ ...error, name: true });
+      setSendError(true);
+    } else {
+      setError({ ...error, name: false });
+      setSendError(false);
+    }
+    setUser({ ...user, name });
   };
-  const errorHandler = (error: boolean) => {
-    setError(error);
+
+  const propsValueUserName = (username: string) => {
+    if (username.length < 2) {
+      setError({ ...error, username: true });
+      setSendError(true);
+    } else {
+      setError({ ...error, username: false });
+      setSendError(false);
+    }
+    setUser({ ...user, username });
   };
+  const propsValueEmail = (email: string) => {
+    const regEmail =
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!regEmail.test(String(email).toLocaleLowerCase())) {
+      setError({ ...error, email: true });
+      setSendError(true);
+    } else {
+      setError({ ...error, email: false });
+      setSendError(false);
+    }
+    setUser({ ...user, email });
+  };
+  const propsValueStreet = (street: string) => {
+    if (street.length < 2) {
+      setError({ ...error, address: {...error.address, street: true} });
+      setSendError(true);
+    } else {
+      setError({ ...error, address: {...error.address, street: false} });
+      setSendError(false);
+    }
+    setUser({ ...user, address: {...user.address, street} });
+  }
+  const propsValueCity = (city: string) => {
+    if (city.length < 2) {
+      setError({ ...error, address: {...error.address, city: true} });
+      setSendError(true);
+    } else {
+      setError({ ...error, address: {...error.address, city: false} });
+      setSendError(false);
+    }
+    setUser({ ...user, address: {...user.address, city} });
+  }
+  const propsValueZipcode = (zipcode: string) => {
+    if(zipcode.length < 5) {
+      setError({ ...error, address: {...error.address, zipcode: true} });
+      setSendError(true);
+    } else {
+      setError({ ...error, address: {...error.address, zipcode: false} });
+      setSendError(false);
+    }
+    setUser({ ...user, address: {...user.address, zipcode} });
+  }
+  const propsValuePhone = (phone: string) => {
+    if(phone.length < 5) {
+      setError({ ...error, phone: true});
+      setSendError(true);
+    } else {
+      setError({ ...error, phone: false});
+      setSendError(false);
+    }
+    setUser({ ...user, phone});
+  }
+  const propsValueWebsite = (website: string) => {
+    let regWebsite = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+
+    if (!regWebsite.test(String(website).toLocaleLowerCase())) {
+      setError({ ...error, website: true });
+      setSendError(true);
+    } else {
+      setError({ ...error, website: false });
+      setSendError(false);
+    }
+    setUser({ ...user, website });
+  }
 
   const editUser: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    if (!error) {
+    if (!sedError) {
       const json = JSON.stringify(user);
       console.log(json);
     } else {
@@ -90,10 +185,9 @@ export const UserForm = () => {
             label={"name"}
             input="name"
             inputValue={user?.name}
-            onChange={propsValue}
-            errorHandler={errorHandler}
+            onChange={propsValueName}
+            error={error.name}
             disabled={disabled && true}
-            user={user}
           />
           <BaseInput
             type="text"
@@ -101,10 +195,9 @@ export const UserForm = () => {
             label={"username"}
             input="username"
             inputValue={user?.username}
-            onChange={propsValue}
-            errorHandler={errorHandler}
+            onChange={propsValueUserName}
+            error={error.username}
             disabled={disabled && true}
-            user={user}
           />
           <BaseInput
             type="text"
@@ -112,10 +205,9 @@ export const UserForm = () => {
             label={"email"}
             input="email"
             inputValue={user?.email}
-            onChange={propsValue}
-            errorHandler={errorHandler}
+            onChange={propsValueEmail}
+            error={error.email}
             disabled={disabled && true}
-            user={user}
           />
           <BaseInput
             type="text"
@@ -123,10 +215,9 @@ export const UserForm = () => {
             label={"street"}
             input="street"
             inputValue={user?.address.street}
-            onChange={propsValue}
-            errorHandler={errorHandler}
+            onChange={propsValueStreet}
+            error={error.address.street}
             disabled={disabled && true}
-            user={user}
           />
           <BaseInput
             type="text"
@@ -134,10 +225,9 @@ export const UserForm = () => {
             label={"city"}
             input="city"
             inputValue={user?.address.city}
-            onChange={propsValue}
-            errorHandler={errorHandler}
+            onChange={propsValueCity}
+            error={error.address.city}
             disabled={disabled && true}
-            user={user}
           />
           <BaseInput
             type="text"
@@ -145,10 +235,9 @@ export const UserForm = () => {
             label={"zipcode"}
             input="zipcode"
             inputValue={user?.address.zipcode}
-            onChange={propsValue}
-            errorHandler={errorHandler}
+            onChange={propsValueZipcode}
+            error={error.address.zipcode}
             disabled={disabled && true}
-            user={user}
           />
           <BaseInput
             type="text"
@@ -156,10 +245,9 @@ export const UserForm = () => {
             label={"phone"}
             input="phone"
             inputValue={user?.phone}
-            onChange={propsValue}
-            errorHandler={errorHandler}
+            onChange={propsValuePhone}
+            error={error.phone}
             disabled={disabled && true}
-            user={user}
           />
           <BaseInput
             type="text"
@@ -167,10 +255,9 @@ export const UserForm = () => {
             label={"website"}
             input="website"
             inputValue={user?.website}
-            onChange={propsValue}
-            errorHandler={errorHandler}
+            onChange={propsValueWebsite}
+            error={error.website}
             disabled={disabled && true}
-            user={user}
           />
           <label htmlFor="coment">Comment</label>
           <textarea
@@ -186,11 +273,11 @@ export const UserForm = () => {
           ></textarea>
         </div>
         <input
-         className={classes.submit} 
-         type={'submit'} 
-         disabled={disabled && true} 
-         style={{background: disabled ? "#AFAFAF" : "#52CF4F"}} 
-         value="Отправить" 
+          className={classes.submit}
+          type={"submit"}
+          disabled={disabled && true}
+          style={{ background: disabled ? "#AFAFAF" : "#52CF4F" }}
+          value="Отправить"
         />
       </form>
     </div>
